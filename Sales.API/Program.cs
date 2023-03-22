@@ -26,4 +26,12 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+//Colocar esta linea siempre para evitar los errores al usar la app Blazor, por la cuestion de los endpoints, y el famoso error del CORS
+//aqui cualquier enndpoint recibe lo que sea de cualquier origen, si se quisiera mas seguridad hay que configurarlo luego
+app.UseCors(x => x
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .SetIsOriginAllowed(origin => true)
+    .AllowCredentials());
+
 app.Run();

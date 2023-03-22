@@ -18,7 +18,7 @@ namespace Sales.API.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            //campo unico e irrepetible
+            //campo unico e irrepetible, ademas de colocarlo como indice por nombre, ya me lo ordena alfabeticamente, ahorra un proceso de ordenamiento
             modelBuilder.Entity<Country>().HasIndex(x => x.Name).IsUnique();
         }
     }
