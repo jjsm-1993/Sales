@@ -16,8 +16,16 @@ namespace Sales.API.Controllers
             _context = context;
         }
 
+        [HttpGet]
+        public async Task<ActionResult> GetAsync()
+        {
+            var countries = await _context.Countries.ToListAsync();
+
+            return Ok(countries);
+        }
+
         [HttpGet("{id:int}")]
-        public async Task<ActionResult> GetAsync(int id)
+        public async Task<ActionResult> GetByIdAsync(int id)
         {
             var country = await _context.Countries.FirstOrDefaultAsync(x => x.Id == id);
 
