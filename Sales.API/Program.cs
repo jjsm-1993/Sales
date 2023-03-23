@@ -10,8 +10,27 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer("name=LocalConnection"));
+builder.Services.AddTransient<SeedDB>();
 
 var app = builder.Build();
+
+/*IMPORTANTE: SIEMPRE QUE SE COLOQUE EL SEED DB EN UN PROYECTO, HAY QUE BORRAR LA BASE DE DATOS, HAY QUE RECORDAR QUE FUNCIONA COMO
+ UN UPDATE-DATABASE EN CODIGO, PORQUE EL SE ASEGURA DE VERIFICAR SI EXISTE O NO LA BASE DE DATOS, Y LA ALIMENTA TAMBIEN CON DATA INICIAL, DESPUES SE CORRE
+EL PROYECTO NORMAL*/
+SeedData(app);
+
+//se hace de esta manera porque es la unica clase donde no se puede inyectar por constructor
+void SeedData(WebApplication app)
+{
+    IServiceScopeFactory? scopedFactory = app.Services.GetService<IServiceScopeFactory>();
+
+    using (IServiceScope? scope = scopedFactory!.CreateScope())
+    {
+        SeedDB? service = scope.ServiceProvider.GetService<SeedDB>();
+        service!.SeedAsync().Wait(); //Con Wait es la otra forma de llamar un metodo asincrono, siempre y cuando no se pueda poner un await delante
+    }
+}
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
