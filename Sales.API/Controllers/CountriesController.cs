@@ -19,15 +19,31 @@ namespace Sales.API.Controllers
         [HttpGet]
         public async Task<ActionResult> GetAsync()
         {
-            var countries = await _context.Countries.ToListAsync();
+            var countries = await _context.Countries
+                .Include(x => x.States)
+                .ToListAsync();
+
+            return Ok(countries);
+        }
+
+        [HttpGet("full")]
+        public async Task<ActionResult> GetFullAsync()
+        {
+            var countries = await _context.Countries
+                .Include(x => x.States!)
+                .ThenInclude(x => x.Cities)
+                .ToListAsync();
 
             return Ok(countries);
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult> GetByIdAsync(int id)
+        public async Task<ActionResult> GetByAsync(int id)
         {
-            var country = await _context.Countries.FirstOrDefaultAsync(x => x.Id == id);
+            var country = await _context.Countries
+                .Include(x => x.States!)
+                .ThenInclude(x => x.Cities)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if (country == null)
             {
