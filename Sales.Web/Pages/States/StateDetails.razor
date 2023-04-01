@@ -25,7 +25,6 @@ else
         </div>
     </div>
 
-
     <Pagination CurrentPage="currentPage"
             TotalPages="totalPages"
             SelectedPage="SelectedPageAsync" />
@@ -71,11 +70,11 @@ else
 
     [Parameter]
     [SupplyParameterFromQuery]
-    public string Page { get; set; } = "";
+    public string Page { get; set; } = string.Empty;
 
     [Parameter]
     [SupplyParameterFromQuery]
-    public string Filter { get; set; } = "";
+    public string Filter { get; set; } = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
