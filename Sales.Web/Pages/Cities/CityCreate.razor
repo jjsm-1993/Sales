@@ -1,4 +1,8 @@
 ﻿@page "/cities/create/{StateId:int}"
+
+@*se coloca a los componentes navegables unicamente*@
+@attribute [Authorize(Roles = "Admin")]
+
 @inject IRepository repository;
 @inject NavigationManager navigationManager;
 @inject SweetAlertService sweetAlertService;
