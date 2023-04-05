@@ -105,10 +105,17 @@
             url2 = $"api/countries/totalPages?filter={Filter}";
         }
 
-        var responseHttp = await repository.Get<List<Country>>(url1);
-        var responseHttp2 = await repository.Get<int>(url2);
-        Countries = responseHttp.Response!;
-        totalPages = responseHttp2.Response!;
+        try
+        {
+            var responseHttp = await repository.Get<List<Country>>(url1);
+            var responseHttp2 = await repository.Get<int>(url2);
+            Countries = responseHttp.Response!;
+            totalPages = responseHttp2.Response!;
+        }
+        catch (Exception ex)
+        {
+            await sweetAlertService.FireAsync("Error", ex.Message, SweetAlertIcon.Error);
+        }
     }
 
     private async Task DeleteAsync(int id)
