@@ -20,7 +20,7 @@ builder.Services.AddControllers().
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer("name=LocalConnection"));
-builder.Services.AddTransient<SeedDB>();
+builder.Services.AddTransient<SeedDb>();
 builder.Services.AddScoped<IApiService, ApiService>();
 builder.Services.AddScoped<IUserHelper, UserHelper>();
 builder.Services.AddScoped<IFileStorage, FileStorage>();
@@ -95,7 +95,7 @@ void SeedData(WebApplication app)
 
     using (IServiceScope? scope = scopedFactory!.CreateScope())
     {
-        SeedDB? service = scope.ServiceProvider.GetService<SeedDB>();
+        SeedDb? service = scope.ServiceProvider.GetService<SeedDb>();
         service!.SeedAsync().Wait(); //Con Wait es la otra forma de llamar un metodo asincrono, siempre y cuando no se pueda poner un await delante
     }
 }
