@@ -145,7 +145,7 @@ else
         {
             if (responseHTTP.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
-                navigationManager.NavigateTo("/");
+                navigationManager.NavigateTo("/Orders/ShowCart");
                 return;
             }
 
